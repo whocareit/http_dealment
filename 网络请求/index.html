@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 网络请求过程首先，通过DNS解析域名将其解析成ip形式，然后客户端发送http请求，通过三次握手的形式给服务器
+        //然后服务器通过四次挥手的形式再传送到客户端
+
+        //数据的请求过程
+        //method: get post 等请求方式
+        //action,对数据请求作出行为
+        //entype:规定在发送表单数据之前如何对其进行编码，appication/x-www-form-urlencoded在默认情况下，会在发送前编码所有字符
+        //multipart/form-data(<input type = 'file'>)不对编码，在使用包含文件上传控件的表单时，必须使用该值
+
+        //ajax:用javascript以异步传送的形式操作XML（现在是json）被称为ajax
+        //全称 Asynchronous javascrtpt and xml
+
+        //ajax请求所必须满足的条件
+        //1. 浏览器  2. ajax对象  3.ajax.open(method ,url ,true),其中第一个参数表示请求方式，常用的方式为get post
+        //第二个参数是传送的文件的url，第三个参数表示传送的方式，如果是true就表示异步传送，如果是false表示是同步传送
+        //get与post的区别在于,get是获取到数据请求而post是去发送数据数据请求
+        //4. ajax.send()  5. onreadystatechange 6.ajax.status == 200,则表示请求数据成功
+
+
+        //ajax请求方法
+        function ajaxFunction() {
+            //浏览器兼容处理，创建一个ajax对象
+            var xhr = null;
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else {
+                xhr = new ActiveXObject('Microsoft.XMLHttp');
+            }
+            xhr.open('GET','./post.php',true);
+            xhr.send();
+            //表示状态改变的事件触发器
+            xhr.onreadystatechange = function (){
+                //readyState有四个值，0表示初始化，1表示已调用send()方法，2已经全部接受响应内容，3交互中，4完成
+                //其一定要放在onreadystatechange当中，在此事件中才有这个变化的过程。而且只需要知道4即可。
+                if(xhr.readyState == 4){
+                    //responseText获得字符串响应数据 status 服务器返回的状态码，如 404 表示没有找到文件  200表示请求成功  
+                    //500 内部服务器错误
+                    if(xhr.status == 200){
+                        //用ajax获取到的数据JSON.parse(xhr.responseText)表示将json格式的文件转化成对象的形式
+                        console.log(xhr.responseText)
+                    }
+                }
+            }
+        }
+
+
+        //ajax请求函数最终模式
+        //callback表示回调函数，method表示请求的方法，flag表示请求的方式，url表示请求的文件，data表示提交栏到网址显示区的内容
+        function ajaxFun(method,data,callback,flag,url){
+            var xhr = null;
+            if(windom.XMLHttpRequest){
+                xhr = new XMLHttpRequest();
+            }else{
+                xhr = ActiveXObject('Microsoft.XMLHttp');
+            }
+            if(method == 'GET'){
+                xhr.open(method,url + '?' + data,flag);
+                xhr.send();
+            }else{
+                xhr.open(method,url,flag);
+                //设置发送数据请求的编码格式
+                xhr.setRequestHeader('Content-type','appication/x-www-form-urlencoded');
+                xhr.send(data);
+            }
+            xhr.onreadystatechange = function (){
+                if(xhr.readyState == 4){
+                    if(xhr.status == 200){
+                        //将获取到的数据传入到函数中
+                        callback(xhr.responseText);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
