@@ -58,27 +58,27 @@
 
         //ajax请求函数最终模式
         //callback表示回调函数，method表示请求的方法，flag表示请求的方式，url表示请求的文件，data表示提交栏到网址显示区的内容
-        function ajaxFun(method,data,callback,flag,url){
+        function ajaxFunc(method,url,data,callback,flag){
             var xhr = null;
-            if(windom.XMLHttpRequest){
+            if(window.XMLHttpRequest){
                 xhr = new XMLHttpRequest();
             }else{
                 xhr = ActiveXObject('Microsoft.XMLHttp');
             }
+            method = method.toUpperCase();
             if(method == 'GET'){
-                xhr.open(method,url + '?' + data,flag);
+                xhr.open(method ,url + '?' + data ,flag);
                 xhr.send();
             }else{
-                xhr.open(method,url,flag);
-                //设置发送数据请求的编码格式
-                xhr.setRequestHeader('Content-type','appication/x-www-form-urlencoded');
+                xhr.open(method ,url ,flag);
+                //规定发送格式
+                xhr.setRequestHeader('Content-type' ,'application/x-www-form-urlencoded');
                 xhr.send(data);
             }
-            xhr.onreadystatechange = function (){
+            xhr.onreadystatechange = function(){
                 if(xhr.readyState == 4){
                     if(xhr.status == 200){
-                        //将获取到的数据传入到函数中
-                        callback(xhr.responseText);
+                        callback(xhr.responseText)
                     }
                 }
             }
