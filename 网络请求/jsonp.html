@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .wrapper {
+            margin-top: 150px;
+            margin-left: 200px;
+        }
+
+        input {
+            width: 540px;
+            height: 36px;
+            border: 1px solid #777;
+        }
+
+        ul {
+            display: none;
+            width: 540px;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+        }
+
+        li {
+            width: 100%;
+            height: 30px;
+            color: #777;
+            opacity: 0.8;
+            line-height: 30px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <input type="text">
+        <ul></ul>
+    </div>
+    <script>
+        var oInput = document.getElementsByTagName('input')[0];
+        var oUl = document.getElementsByTagName('ul')[0];
+
+        oInput.oninput = function () {
+            var value = this.value;
+
+            var oScript = document.createElement('script');
+            oScript.src = 'https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&wd=' + value + '&cb=doJSON';
+            document.body.appendChild(oScript);
+
+        }
+
+
+        function doJSON(data) {
+            if (data.g == undefined) {
+                oUl.style.display = 'none';
+            } else {
+                var obj = data.g;
+                var str = '';
+                for(var i in obj){
+                    str = '<li>' + obj[i].q + '</li>'
+                }
+                oUl.innerHTML = str;
+                oUl.style.display = 'block';
+            }
+         }
+    </script>
+</body>
+
+</html>
