@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // document.cookie = 'age=18;max-age=2000';
+
+        // var oDate = new Date();
+        // // 在Date()方法中有setDate()和getDate()两种方法，第一个方法是设置时间，第二个是去获取时间
+        // oDate.setDate(oDate.getDate() + 3);
+        // console.log(oDate);
+        // document.cookie = 'anime=dj;expires=' + oDate;
+
+        // document.cookie = 'school=dream;expires='+ oDate + ';path=/';
+
+        // 要删除掉之前的cookie，只需要将其max-age的值设置为-1即 max-age = -1;
+
+        //对于管理cookie的封装
+        var magentCookie = {
+            setCookie: function(name ,value ,time){
+                document.cookie = name + '=' + value + ';max-age=' + time;
+                return this; 
+            },
+            removeCookie: function(name){
+                return this.setCookie(name , '', -1);
+            },
+            getCookie: function(name){
+                var allArr = document.cookie.split('; ');
+                for(var i = 0; i < allArr.length; i++){
+                    var itemArr = allArr[i].split('=');
+                    if(itemArr[0] == name){
+                        console.log(itemArr[i]);
+                        break;
+                    }
+                }
+                return this;
+            }
+        }
+        magentCookie.setCookie('beautiful',15, 1000).getCookie('beautiful')
+
+
+    </script>
+</body>
+</html>
