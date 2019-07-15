@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 在实现跨域时下面的src中时不同源的域名 -->
+    <iframe src="./second.html" frameborder="0" name = 'bitch'></iframe>
+    <script>
+        // // 下面这种方式在实现跨域的过程中也可以去使用
+        // var oIframe = document.getElementsByTagName('iframe')[0];
+        // var oldAge = 55;
+        // var oSrc = oIframe.src;
+        // document.onclick = function(){
+        //     // 采用这种方式可以使得#后面的数字实现逐步的相加
+        //     oIframe.src = oSrc + '#' + oldAge;
+        //     oldAge++;
+        // }
+
+        // 第二种中iframe中实现跨域的方式
+        // 首先动态的将自己页面中不同源的页面设置为自己同源的网页，然后使用iframe.contentWindow.name获取到信息
+        // 因为在页面中window下的内容是可以获取到的，只要页面中的内容不关闭，就可以获取
+        
+        var oIframe = document.getElementsByTagName('iframe')[0];
+        var oldAge = 55;
+
+        var flag = true;
+        oIframe.onload = function(){
+            if(flag){
+                oIframe.src = './second.html'
+            }else{
+                console.log(oIframe.contentWindow.name);
+            }
+        }
+
+    </script>
+</body>
+</html>

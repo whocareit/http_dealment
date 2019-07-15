@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+    <iframe src="http:/www.baidu.com" frameborder="0"></iframe>
+    <script>
+        // iframe是标准的dom元素，可以用于将一个网页镶嵌在另外一个网页中。常用于广告植入，在线编辑器，以及老的tap的使用
+        // iframe会阻塞页面加载，只有当iframe中的内容完成之后,window.onload才会加载完，这样的加载方式在使用的过程时，显得非常的缓慢
+        // 为了避免这种阻塞的方式，通过动态添加src的方式使得加载的速度变得更快
+        // 获取子页面中的iframe中内的内容
+        // 1.document.getElementByTagName('iframe')[0].contentWindow
+        // 2.window.frames['iframe的name']
+
+        // IE专用
+        // document.iframes[name].contentWindow
+        // document.iframes[i].contentWindow
+
+        // 从子页面中获取到父页面中的信息
+        // window.parent
+        // 顶级窗口中的信息获取
+        // window.top
+
+
+        // 非同源的情况下通过Hash值的方式来获取
+        
+    </script>
+</body>
+</html>
