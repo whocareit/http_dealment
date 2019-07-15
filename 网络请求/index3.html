@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .wrapper {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper"></div>
+    <script>
+        // 使用cookie去记录上一次最后方块所留的位置
+        var oDiv = document.getElementsByClassName('wrapper')[0];
+        var body = document.getElementsByTagName('body')[0];
+
+        var magentCookie = {
+            setCookie: function (name, value, time) {
+                document.cookie = name + '=' + value + ';max-age=' + time;
+                return this;
+            },
+            deleteCookie: function (name) {
+                return this.setCookie(name, '', -1);
+            },
+            getCookie: function (name, callback) {
+                var allArr = document.cookie.split('; ');
+                for (var i = 0; i < allArr.length; i++) {
+                    var itemArr = allArr[i].split('=');
+                    if (itemArr[0] == name) {
+                        callback(itemArr[1]);
+                        return this;
+                    }
+                }
+                callback(null);
+                return this;
+            }
+        }
+
+        function bindEvent(demo, wrapper) {
+            var x, y, boxL, boxT, disX, disY, drag = false, newLeft, newTop;
+            demo.onmousedown = function (e) {
+                drag = true
+                //兼容性处理
+                var event = e || window.event
+                //获取到鼠标的位置
+                x = event.clientX
+                y = event.clientY
+                //内边框距离外边框左与上的距离
+                boxL = demo.offsetLeft
+                boxT = demo.offsetTop
+                //鼠标位置距离左边框与上边框的位置
+                disX = x - boxL
+                disY = y - boxT
+            }
+            wrapper.onmousemove = function (e) {
+                var event = e || window.event
+                newLeft = event.clientX - disX;
+                newTop = event.clientY - disY;
+                if (drag) {
+                    demo.style.left = newLeft + 'px';
+                    demo.style.top = newTop + 'px';
+                }
+            }
+            demo.onmouseup = function () {
+                drag = false;
+                magentCookie.setCookie('newLeft', newLeft, 10000).setCookie('newTop', newTop, 10000);
+                console.log(document.cookie)
+            }
+        }
+        function init() {
+            magentCookie.getCookie('newLeft',function(data){
+                oDiv.style.left = data + 'px';
+            }).getCookie('newTop',function(data){
+                oDiv.style.top = data + 'px';
+            })
+            bindEvent(oDiv, body);
+        }
+        init();
+    </script>
+</body>
+
+</html>
