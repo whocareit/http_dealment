@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>弹性盒子</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+            /* font-size: 0; */
+            /* 当设置inline-block时，在行级块元素之间存在一个字节的宽度，为此在默认情况下需要将字节的大小设置为0 */
+        }
+        .wrapper{
+            display: flex;
+            width: 500px;
+            height: 500px;
+            border: 1px solid black;
+        }
+        .item{
+            /* display: inline-block;
+            width: 33.33%; */
+            height: 50px;
+            width: 150px;
+            flex-basis: 50px;
+            /* flex-grow放大比例，后面的数值表示等分的比列,当宽度不够时，就会将宽度自动扩大比列放大
+               flex-shrink缩小比列，如果设置的宽度过大，就会按照比例等比列缩小
+               这里需要注意的是，由于每个项目都设置了等比例放大或者是缩小，因此就会产生等分的情况，其等分的
+               实质是，如果三个项目中其他两个都只设置了具体的宽度，其余一部分设置了放大或者缩小比列，那么就有这
+               两个部分中的内容按照具体的宽度分完之后，剩余的部分就会自动分为项目中设置了放大或者缩小比列部分
+               这种情况下就可以完成两边固定，中间自适应状况
+            */
+            /* flex-grow: 1; */
+            font-size: 16px;
+            line-height: 50px;
+            text-align: center;
+            border: 1px solid black;
+            /* flex-basis占主轴的宽度，如果主轴是X轴就是宽度，如果主轴是Y轴就是指的高度当此属性和宽度或者是高度同在时
+               就会以flex-basis设置的内容来确定.在默认的情况下默认的主轴是X轴
+             */
+        }
+        /* order用来确定各个项目中的排列顺序，数值越小排列就越靠前，默认的情况下为0 */
+        .item:nth-of-type(1){
+            order: 1;
+        }
+        /* align-self 用于允许单个项目中的对齐方式 其属性值有flex-start(默认)x轴顶部 flex-end 底部  center中间
+            baseline按照基准线对齐,基准线就是第一行文字，如果项目中没有文字，就以项目最下部去对齐基准线
+         */
+        .item:nth-of-type(2){
+            order: 0;
+            align-self: flex-end;
+        }
+        .item:nth-of-type(3){
+            order: -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- 选项卡布局 -->
+    <!-- 在flex布局中由 侧轴 主轴(X) / 交叉轴(Y) 在弹性盒子中包括有两部分，第一部分为容器  第二部分为项目  项目是包裹在容器之中的
+        触发弹性盒子的方式是在容器中写上display: flex; 
+        设置在项目中的属性有六个 flex-grow flex-shrink flex-basis flex order align-self
+        设置在容器上的属性有flex-direction flex-wrap flex-flow justify-content align-item align-content
+        flex-direction 决定主轴的方向 row(默认值)x轴 从右往左 row-reverse x轴从左往右 column y轴从上向下 column-reverse y轴从下往上
+        flex-wrap 一条轴线排不下实现换行 nowrap(默认) 不换行 wrap第一行在上方 wrap-reverse 第一行在下方
+        flex-flow : flex-direction && flex-wrap
+        justify-content 决定项目在主轴上的对齐方式 flex-start 以主轴的左边 flex-end以主轴的右边 center以主轴的中间 space-between 两端对齐，项目之间间隔相等
+        space-around 每个项目两侧的间隔相等。所以，项目之间的间隔比项目与边框的间隔大一倍
+        align-items 设置所有项目的对齐方式与align-self参数值一样
+        align-content 多轴对齐方式
+    -->
+    <div class="wrapper">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+    </div>
+</body>
+</html>

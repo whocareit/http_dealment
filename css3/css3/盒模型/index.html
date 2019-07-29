@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div{
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            position: absolute;
+            top: 100px;
+            left: 200px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 盒子模型，盒模型分为两种 标准盒模型 混杂模式盒模型 
+        区别： 在标准盒模型中 padding margin border content区这四部分内容，如果给盒子设置宽度与高度时，设置的内容是加在content区域内
+               在混杂模型中  如果设置了宽度，其宽度是包括这四部分中的内容，然后再根据内部中的内容进行分配
+        触发混杂模式盒模型 1 全局触发 在严格模式下的 ie6版本之下就会自动的全局去触发混杂模式盒模型
+                          2 局部触发 在任何版本下只要在盒子中设置 box-sizig: border-box就会自动的触发混杂模式盒模型
+    -->
+    <div>totle</div>
+</body>
+</html>

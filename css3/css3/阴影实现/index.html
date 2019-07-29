@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .demo{
+            width: 200px;
+            height: 200px;
+            /* 颜色值rgba() red green blue alpha(透明度) R G B 正整数的取值范围是在0~255之间 百分数的取值范围实在0%~100%之间 A取值的
+            范围是在0~1之间 */
+            margin-top: 20px;
+            margin-left: 100px;
+            /* 此时表示的是一个圆形
+            border-radius: 50%; */
+            /* 此时表示的四个角设值的角度大小，表示取以中心点为原点，x轴的负方向的50px y轴正方向的50px所构成的一个弧 */
+            /* border-radius: 100px 100px 100px 100px;    
+            box-shadow: 0px 0px 8px 5px #888;   */
+            /* 在box-shadow中有五给参数 第一个参数表示的向x轴的偏移量 第二个参数表示的是向y轴的偏移量 第三给参数表示的阴影模糊半径
+            第四给参数表示的是阴影扩展的半径 第五个参数表示的是投影的颜色 第六个参数表示的是投影的方向，可以是向内投影 也可以是向外投影
+            但是常用的是向外投影 其中第三个参数的值是不能够为负值的
+            也可以分别去设置上下左右四个方向的边框的投影使用box-shadow: 0px 0px 8px 5px #888,0px 0px 8px 5px red,0px 0px 8px 5px #888,0px 0px 8px 5px #888
+            的形式*/
+            /* text-shadow文本阴影，其使用的方法与上面的box-shadow是一样的 */
+            background: linear-gradient(60deg, red 10%, blue 50% ,yellow 70%);
+            /* 背景颜色的渐变 linear-gradient表示线性的颜色渐变过程 第一个参数表示的是变换的角度的位置，可以采用角度的方式也可以采用to direction的方式
+            后面的参数是变化的颜色与变换的范围，变换的范围可以设置也可以不设置，后面变化的颜色是两个及其以上
+            第二种渐变的方式是径向渐变 radial-gradient(shape at position ,color)shape可以是circle，也可以是ellipse position代表的是
+            渐变的圆心的位置可以是可以自己设定的默认情况下是50% 50% 后面的参数与上面的linear-gradient后面的参数应用的形式相同*/
+            /* @font-face {
+                font-family: ;
+                src: url();
+            }
+            p{
+                font-family: ;
+            } 
+            此时font-family是连接引入文本字体的内容，p标签中的font-family中的名称只要与@font-face中的font-family名称相同就可以获取到src引入的文件的名称了
+            */
+        }
+
+        /* 通过backgorund-image引入的图片中还有banckground-position 与background-clip 其中前面的是表示所要展示的图片的位置 后面表示的则是剪切图片*/
+
+        /* 浏览器兼容问题，每个浏览器都有其独立的内核，在没有标准之前各个浏览器所兼容的属性设置是完全不一样的，例如-webkit-border-radius
+        这样的属性设置，是webkit内核兼容的属性，其他内核的浏览器设置该属性就不管用。如果所有的样式都兼容该属性就可以去掉前面的内核名称
+        常用的四大内核，webkit o moz ms 这四种是主要的四大浏览器内核
+        border-radius: 是在四个方向来设置圆角，分别为四个顶角即top-left top-right bottom-left bottom-right，表示其四个顶角的值可以是像素也
+        可以是百分比
+        */
+    </style>
+</head>
+<body>
+    <div class="demo"></div>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            list-style: none;
+        }
+        ul{
+            width: 600px;
+            margin: 20px auto;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0px 4px 2px 1px #999;
+        }
+        li{
+            width: 20%;
+            height: 30px;
+            float: left;
+            background-color: orange;
+            color: #fff;
+            text-align: center;
+            line-height: 30px;
+            cursor: pointer;
+            border-right: 0.5px dashed #fff;
+            box-sizing: border-box;
+        }
+        .active{
+            border: none;
+        }
+        /* 这种方式是去设置导航栏中的具体宽高是多少 */
+    </style>
+</head>
+<body>
+    <ul>
+        <li>首页</li>
+        <li>样品</li>
+        <li>地图展示</li>
+        <li>用户</li>
+        <li class="active">登录</li>
+    </ul>
+</body>
+</html>
