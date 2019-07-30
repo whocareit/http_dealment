@@ -1,0 +1,190 @@
+*{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+}
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    background-color: #000;
+}
+.content{
+    display: flex;
+    justify-content: space-between;
+    /* 将项目设置为中间对齐 */
+    align-items: center;
+    width: 80%;
+    height: 80%;
+}
+.item{
+    position: relative;
+    width: 16%;
+    height: 100%;
+    background-color: #777;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: height 0.5s linear 0.5s, width 0.5s linear ;
+    cursor: pointer; 
+}
+
+.wrapper-active .item{
+    transition: height 0.5s linear, width 0.5s linear 0.5s;
+}
+
+
+.item .inner{
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s linear;
+}
+/* 增添wrapper-active属性选择器来控制效果 */
+.active{
+    width: 100%;
+}
+.wrapper-active .item:not(.active){
+    width: 0%;
+    height: 0%;
+}
+
+
+/* 给各个item中的inner设置延时展示 */
+.item:nth-of-type(2) .inner{
+    transition-delay: 0.1s;
+}
+.item:nth-of-type(3) .inner{
+    transition-delay: 0.2s;
+}
+.item:nth-of-type(4) .inner{
+    transition-delay: 0.3s;
+}
+.item:nth-of-type(5) .inner{
+    transition-delay: 0.4s;
+}
+.item:nth-of-type(6) .inner{
+    transition-delay: 0.5s;
+}
+
+.init .item .inner{
+    transform: translate3D(0,100%,0);
+}
+
+.item .bg{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.7;  
+}
+
+/* 将图片中的opacity设置为1 */
+.item:hover .bg{
+    opacity: 1;
+    transition: opacity 0.2s linear;
+}
+
+/* 引入每一张图片 */
+.item:nth-of-type(1) .bg{
+    background-image: url(../img/1.jpg)
+}
+.item:nth-of-type(2) .bg{
+    background-image: url(../img/2.jpg)
+}
+.item:nth-of-type(3) .bg{
+    background-image: url(../img/3.jpg)
+}
+.item:nth-of-type(4) .bg{
+    background-image: url(../img/4.jpg)
+}
+.item:nth-of-type(5) .bg{
+    background-image: url(../img/5.jpg)
+}
+.item:nth-of-type(6) .bg{
+    background-image: url(../img/6.jpg)
+}
+
+/* 对于title部分的处理 */
+.item .title{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* css3中提供的对于平移元素的方法 */
+    transform: translate(-50%,-50%);
+}
+.item .title h4{
+    font-size: 14px;
+}
+
+/* 在这里需要注意权重的问题，下面的属性的选择器的权重一定要大于上面的权重 */
+.wrapper .title {
+    transition: opacity 0.2s linear 1s;
+}
+
+.wrapper-active .title{
+    opacity: 0;
+    transition: opacity 0.2s linear;
+}
+
+.item:hover .title h4{
+    font-size: 20px;
+    transition: font-size 0.2s linear;
+}
+
+/* show部分样式设置区 */
+.item .show{
+    position: absolute;
+    top: 30px;
+    width: 100%;
+    height: 30px;
+    opacity: 0;
+    transition: opacity 0.2s linear;
+}
+.show .header{
+    float: left;
+    margin-left: 30px; 
+    line-height: 30px;
+}
+.show .closer{
+    position: relative;
+    width: 30px;
+    height: 30px;
+    float: right;
+    margin-right: 30px;
+}
+
+/* 使用after和before来组成一个close符号 */
+.item .closer::after,
+.item .closer::before{
+    /* 在这里需要将content设置为空 */
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    top: 50%; 
+    margin-top: -1px;
+    background-color: #fff;
+}
+.item .closer::before{
+    transform: rotate(45deg);
+}
+.item .closer::after{
+    transform: rotate(-45deg);
+}
+
+/* 在有active的属性选择器下有一秒的延迟 */
+.active .show{
+    opacity: 1;
+    transition: opacity 0.2s linear 1s;
+}
+
