@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- h5新引入的特性，用于设置移动端中的内容能够适应网页中留下的样式，使得视觉效果更佳-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>媒体查询</title>
+    <style>
+        @media screen and (max-width: 800px) and (min-width: 601px){
+            div{
+                width: 150px;
+                height: 150px;
+                background-color: green;
+            }
+        }
+        @media screen and (max-width: 600px){
+            div{
+                width: 100px;
+                height: 100px;
+                background-color: red;
+            }
+        }
+        @media screen and (min-width: 801px){
+            div{
+                width: 200px;
+                height: 200px;
+                background-color: yellow;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 媒体查询的主要用于给不同的设备设置不同的样式，以便于给出最优化的视觉效果
+         对于媒体查询引入的三种方式
+         第一种通过link标签的形式去引入,media中前面的screen是指的媒体类型 后面的max-width是指的媒体特性：width 和  device-width(设备宽度)
+         <link rel = "stylesheet" media = "screen and (max-width: 800px)" href = "index.css">
+         第二种引入方式
+         <style>
+             @media (max-width: 800px){
+                 ..样式的内容...
+             }
+         </style>
+         第三种引入方式
+         @media  screen and (max-width : 800px) and (min-width: 600px){
+
+         }
+         常见使用的几种媒体类型 all 所有设备  screen 彩色电脑屏幕 print 文档打印或者打印预览模式
+         逻辑运算符 在媒体查询中没有或者连接符，这是采用“,”来表示即可
+    -->
+    <div></div>
+</body>
+</html>

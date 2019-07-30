@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>性能优化</title>
+</head>
+<body>
+    <!-- 
+        物理像素 指的是显示器上最小的物理单位显示单元，在操作系统下调度下，每一个设备都有自己的颜色值和亮度值
+        设备独立像素 可以认为是计算机坐标系统中的一个点，这个点可以由css像素通过相关的系数转化为物理像素
+        设备比像素 物理像素 / 设备独立像素  在js中可以通过window.devicePixelRatio来查询
+
+        浏览器渲染原理
+        1.首先生成一个DOM树，2.生成css树 3.生成一个render树 4.对render树进行布局计算 5.将render树上的内容渲染在屏幕上
+        回流：当render树中的因为元素尺寸，样式的改变等影响需要对页面重新进行构建时这种情况就叫做回流
+        重绘 当页面中因为样式的外观等不影响布局的样式产生
+        重构 页面中的结构发生改变时，就会对页面进行重新的布局
+        重绘和重排会影响性能 在审查元素的performancez中重新刷新时就能够看到各个部分加载时所需要的时间，这个时候会生成一个饼状图其中
+        蓝色: 网络通信和HTML解析
+        黄色: js加载
+        紫色: 样式布局和计算即重排
+        绿色: 重绘
+
+        触发重排重汇的方法
+        offsetLeft offsetTop scroolTop currentStyle等
+        
+        提高页面性能的办法：就是尽量的降低重排和重绘的成本，尽量少触发重新渲染
+     -->
+</body>
+</html>

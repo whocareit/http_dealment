@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动画</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .wrapper{
+            margin-left: 100px;
+            margin-top: 100px;
+            transform-style: preserve-3d;
+            /* 设置景深，满足近小远大，相当于放一双眼睛在屏幕上 ,景深的参数值越大越靠前
+               此时只设置了一个视觉，从一个视觉上去看所有的3d视图
+               transform: perspective(600px) 给每个子元素设置各自的视觉
+            */
+            perspective: 600px;
+            /* 将眼睛放在所看3d视图的顶端 */
+            perspective-origin: top;
+            /* transform: translate()在空间上进行平移 */
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+        }
+        .item{
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            /* 围绕x轴进行旋转 */
+            transform: rotateX(45deg);
+            /* 在这里需要明白是transform: rotate(1,1,2,60deg); 与transform: rotateX(60deg);
+               transformY(60deg) transformZ(120)是不一样的，这两者的区别在于，前者是一个矢量和
+               后者是先进行向X轴旋转再进行向y轴旋转最后再向Z轴旋转
+             */
+        }
+    </style>
+</head>
+<body>
+    <!-- transform-style: preserve-3d   保留子元素的3D效果， -->
+    <div class="wrapper">
+        <div class="item"></div>
+    </div>
+</body>
+</html>

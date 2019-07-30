@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>旋转墙</title>
+    <style>
+        .wrapper {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 100px auto;
+            transform-style: preserve-3d;
+            animation: rota 4s linear infinite;
+        }
+
+        .wrapper div {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.5;
+            line-height: 200px;
+            color: #fff;
+            text-align: center;
+        }
+        .item1{
+            background-color: red;
+            transform: rotateY(0deg) translateZ(200px);
+        }
+        .item2{
+            background-color: pink;
+            transform: rotateY(60deg) translateZ(200px);
+        }
+        .item3{
+            background-color: orange;
+            transform: rotateY(120deg) translateZ(200px);
+        }
+        .item4{
+            background-color: purple;
+            transform: rotateY(180deg) translateZ(200px);
+        }
+        .item5{
+            background-color: yellowgreen;
+            transform: rotateY(240deg) translateZ(200px);
+        }
+        .item6{
+            background-color: green;
+            transform: rotateY(300deg) translateZ(200px);
+        }
+        @keyframes rota{
+            0%{
+                /* 如果不将rotateX设置在这里，那么其属性就会被覆盖掉 */
+                transform: rotateX(-20deg) rotateY(0deg);
+            }
+            100%{
+                transform: rotateX(-20deg) rotateY(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="item1">1</div>
+        <div class="item2">2</div>
+        <div class="item3">3</div>
+        <div class="item4">4</div>
+        <div class="item5">5</div>
+        <div class="item6">6</div>
+    </div>
+</body>
+
+</html>
