@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画布基础2</title>
+    <style>
+        #myCanvas{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        阴影   ctx.shadowOffsetX 设置向x方向上的阴影  ctx.shadowOffset 设置向y反方向上的阴影
+        ctx.shadowBlur  设置模糊度的大小  ctx.shadowColor 设置阴影部分的颜色    
+        
+        文本   fillText("hello",100,100)  使用这种方式时，如果再设置字体的宽度，那么就会有一个实体的字
+               此方法接收三给参数，第一个参数文字的内容 第二与第三个参数表示文字产生的位置
+              strokeText() 使用这种方式时，当设置字体的宽度大小时，就会产生一个描边字
+              ctx.font = '50px sans-serif' 设置字体的大小 第一个参数用绝对像素表示字体的大小  后面的参数表示字体的样式
+              ctx.textAlign 每个字体设置时都会有一个圆点，该远点表示字体对齐的位置 此属性表示再水平方向上圆点的位置
+              ctx.textBaseline 此属性表示再竖直方向上圆点的位置  这两者的属性值可以在官方文档中去查询
+              
+        线段样式 lineCap属性  当设置宽度时，能直观的设置线段的形状 
+                其参数值有三个  butt 即默认的样式  square 线段的长度等于移动的长度两边再分别加上线段宽度的一半
+                               round 线段的长度等于移动的长度两边再分别加上线段宽度的一半，并且加上的线段宽度部分为圆角
+                lineJoin   截取线段组成的角的样式 
+                其参数值有三个  miter 即默认样式尖角 round 将尖角设置的更加的圆润，有一个弧度  bevel 截取尖角，将尖角部分
+                直接截取为一条线       
+                
+                ctx.miterLimit 当lineJoin是miter时，用于控制斜接部分的长度，如果斜接部分超过miterLimit的值(限定值为10)，就会变成bevel
+        
+        裁剪  ctx.clip() 裁剪当前路径外的区域，裁剪之后当前路径之外的区域就不能够再来绘制  可以通过save()和restore方法恢复
+
+        合成  ctx.globalCompositeOperation = 'source-over'; 新元素与旧元素之间的合并方式，有十一种
+              常用 source-over(默认) destination-over copy
+
+        绘制图片  ctx.drawImage(); 第一个参数img(image,video,canvas)这三种形式
+                                  三个参数(x,y)  起始点的坐标
+                                  五个参数(x,y,dx,dy) 起始点的坐标以及图片区域的长度与宽度
+                                  九个参数(x,y,dx,dy,x1,y1,w2,h2) 前四个为所绘制目标元素的起始点和宽度 后四给参数为canvas绘制的起始点的大小
+        
+        将canvas内容导出     canvas.toDataUrl() 注意此方法是canvas自身的方法不是上下文对象的
+                                 将canvas的内容抽成一张图片，base64编码 注意同源策略限制
+                                 将canvas的内容放在img元素内部
+                    
+        获取canvas像素信息   ctx.getImageData(x,y,dx,dy)  //同源策略 将所选区域的内容以base64编码展现出
+                            ctx.createImageData(x,y)创建新的空白页ImageData对象
+                            ctx.putImageData(imaData,x,y)将图像数据放再画布上
+        
+        命中检测           ctx.inPointPath(x,y) 检测是否在区域内  如果该点在则返回true不在就返回false
+                          ctx.inPointInStroke() 检测是否在线上   如果该点在则返回true不在就返回false
+                          还可以通过检测当前点的像素值，如果为透明，则该点不在路径上
+        
+        非零绕树准则    判断点P是否在多边形内，从点p向外做一条射线(可以是任意方向)，多边形的边从左往右经过射线时环数减一
+                       从右往左时环数加一，最后环数不为0则表示在该区域内部
+
+        解决canvas高分屏模糊问题  因为canvas绘制的是位图，所以会导致模糊，解决方法是根据屏幕分辨率修改canvas样式代码中的宽和高
+                                与canvas的width和height属性的比列
+         
+                
+     -->
+    <canvas id = "myCanvas" width = 500 height = 500></canvas>
+
+    <script>
+        var myCanvas = document.getElementById('myCanvas');
+        ctx = myCanvas.getContext('2d');
+
+        // 阴影  
+        // ctx.fillStyle = 'red';
+        // ctx.shadowColor = 'green';
+        // ctx.shadowOffsetX = 10;
+        // ctx.shadowOffsetY = 10; 
+        // ctx.shadowBlur = 10;
+        // ctx.fillRect(10,10,100,100);
+
+        //文字
+        // ctx.strokeStyle = 'red';
+        // ctx.font = "50px sans-serif";
+        // ctx.textAlign = 'center';
+        // ctx.textBaseline = 'middle';
+        // ctx.strokeText("hello",100,100);
+
+        //线段样式
+        // ctx.moveTo(100,100);
+        // ctx.lineTo(200,100);
+        // ctx.lineTo(50,150);
+        // ctx.lineWidth = 30;
+        //lineJoin属性
+        //ctx.lineJoin = 'round';
+        // ctx.stroke();
+
+        //lineCap属性
+        // ctx.beginPath()
+        // ctx.moveTo(100,200);
+        // ctx.lineTo(200,200);
+        // ctx.lineWidth = 20;
+        // ctx.lineCap = 'round';
+        // ctx.stroke();
+
+        //裁剪
+        // ctx.save();
+        // ctx.beginPath();
+        // ctx.arc(250 ,250 ,100 ,0 ,Math.PI*2 ,0);
+        // ctx.closePath();
+        // ctx.clip();
+
+        // ctx.fillRect(250 ,250 ,250,250);
+        // ctx.restore();
+        // ctx.fillRect(0 ,0 ,100 ,100);
+
+
+    </script>
+</body>
+</html>

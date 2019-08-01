@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画布基础</title>
+    <style>
+        canvas{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <!-- canvas在ie9之前的版本是不支持的
+        canvas使用过程，首先创建一个画布的大小，即设置canvas标签，并且设置其大小，作为一张画布
+        第二步,创建一个画布的上下文对象后才能对画布进行作画.getContext('2d')
+
+        作画中产生线段的方法： ctx.moveTo(x,y) 将画笔抬起到x,y这个像素点   ctx.lineTo(x,y)画一条直线从起始点到到达x,y
+        ctx.stroke()进行线段的描边 ctx.lineWidth = 20 设置线段的宽度   ctx.closePath() 闭合当前路径 
+        ctx.fill()进行填充
+
+        作画成矩形的方法 ctx.rect(x,y,长,宽),使用这种方式也需要注意路径问题
+                        ctx.fillRect(x,y,长,宽),自动进行填充，这种方式不需要注意路径问题
+                        ctx.strokeRect(x,y,长,宽),自动进行描边，这种方式不需要注意路径问题
+
+        擦除当前矩形区域   ctx.clearRect(x,y,长,宽) 
+
+        弧形            arc(x,y,r,起始弧度,结束弧度,方向) 弧度必须使用Math.PI/180 * n的形式,方向中数字0代表顺时针 1代表逆时针
+                        在这里尤其是要注意的是顺时针于逆时针结合角度的问题，例如角度是顺时针的90度，则为1/4个圆，如为逆时针90度为3/4个圆
+
+        圆角            arcTo(x1,y1,x2,y2,r),在这之前首先有一个起始点，r为圆角的半径。
+
+        贝塞尔曲线      二次贝塞尔曲线  quadraticCurveTo(x1,y1,x2,y2) 二次贝塞尔曲线，有三个顶点A B C 规定从A到B 与从B到C的距离所需要的时间相等
+                       此时开始计时，从A到B有个点，从B到C有个点，两点连线的切线形成的点就为二次贝塞尔曲线
+
+                       三次贝塞尔曲线  bezierCurveTo(x1,y1,x2,y2,x3,y3) 三次贝塞尔曲线  有四个点，先形成两条直线，再形成一条直线，最后得到三次贝
+                       塞尔曲线
+
+        坐标轴转化      translate(dx,dy)重新映射画布上的位置，将画布的位置进行移动
+                       scale(x,y)  x  y代表对当前画布进行缩放，x与y代表缩放的倍数
+                       rotate(Math.PI/180 * n)将当前画布进行旋转
+                       save() restore() 前面部分表示保存当前图像状态的一份拷贝  后者表示释放保存的状态，其是栈机制满足先进后出的方式
+                       因此在逐步释放的过程中，先释放后保存的
+                       setTransform(a,b,c,d,e,f) 先重值再置换即将之前设置好的效果都覆盖掉 
+                       a 水平缩放  b 水平倾斜 c 垂直倾斜  d 垂直缩放 e 水平移动 f 垂直移动
+                        
+                       transform(a,b,c,d,e,f) 在之前分开设置好的样式上再来叠加这个部分的内容
+
+       填充图案        createPattern(image,"repeat|no-repeat|repeat-x|repeat-y")
+                      img元素 (Image对象) ，cacvas对象， video对象(有图像)
+
+       渐变            createLinearGradient(x1,y1,x2,y2) 线性渐变  首先需要定义好渐变的范围否则将不会有效果
+                       createRadialGradient(x1,y1,x2,y2) 径向渐变  
+
+                       bg.addColorStop(p,color); 渐变颜色填充，其中p用小数表示，表示渐变颜色的范围的取值,color用字符串形式
+    -->
+    <canvas id = "canvas1" width = 500 height = 500;></canvas>
+    <script>
+        var ctn = document.getElementById('canvas1');//canvas在这里相当于一张画布
+        ctx = ctn.getContext('2d'); //在这里上下文对象就相当于一支画笔
+        
+
+        //线段
+        // ctx.moveTo(100,100);
+        // ctx.lineTo(200,100);
+        // ctx.lineTo(200,200);
+        // //ctx.lineTo(100,100);
+        // /*在这里需要明白的就是闭合当前路径和回到路径的区别，回到起始点并不能闭合路径，如果将描边的宽度
+        //                     进行设置则不能达到闭合的效果，需要手动的去调试*/
+        // ctx.closePath();
+        
+        // ctx.lineWidth = 40;
+        // // 在填充颜色时，需要先设置颜色的值，再进行描边，否则描边的颜色就会变成黑色
+        // ctx.strokeStyle = 'green';
+        // ctx.stroke();
+        // // ctx.fill()//在默认情况下，填充的颜色为黑色
+
+        // //在这里还需要注意路径问题，在没有新的开始新的路径时，在设置颜色的过程中，后面的颜色设置会覆盖掉之前的颜色
+        // ctx.beginPath();
+        // ctx.moveTo(300,100);
+        // ctx.lineTo(400,100);
+        // ctx.lineTo(400,200);
+        // ctx.closePath();
+        // ctx.strokeStyle = 'red';
+        // ctx.lineWidth = 40;
+        // ctx.stroke();
+
+
+        //矩形
+        // ctx.rect(100,100,200,100);
+        // ctx.stroke();
+        //在这里需要注意的是，要先设置颜色，再进行描边或者是填充
+        // ctx.strokeStyle = 'red';
+        // ctx.strokeRect(10,100,150,100);
+
+        // ctx.strokeStyle = 'green';
+        // ctx.strokeRect(170,200,150,100);
+
+        //使用画布实现矩形下落
+        // var y = 50;
+        // var timer = setInterval(() => {
+        //     moveT(y);
+        //     y += 10;
+        //     if(y > 470){
+        //         clearInterval(timer);
+        //         ctx.fillRect(50,450,50,50);
+        //     }
+        // }, 20);
+
+        // //在每移动一次，就把画布里面的内容全部清空
+        // function moveT(y){
+        //     ctx.clearRect(0,0,500,500);
+        //     ctx.fillRect(50,y,50,50);
+        // }
+        
+        // 画弧度
+        // ctx.moveTo(250,250);
+        // ctx.lineTo(350,250);
+        // ctx.arc(250,250, 100, 0 , -Math.PI/180 * 67,1);
+        // ctx.closePath();
+        // ctx.stroke();
+
+
+        //圆角
+        // ctx.moveTo(100,200);
+        // ctx.arcTo(300,200,300,300,50);
+        // ctx.stroke();
+
+        //二次贝塞尔曲线
+        // ctx.moveTo(200,300);
+        // ctx.quadraticCurveTo(250,150,360,350);
+        // ctx.stroke();
+
+        //填充图案
+        // var oImg = new Image();
+        // oImg.src = './img/2.jpg';
+
+        // oImg.onload = function(){
+        //     var fill = ctx.createPattern(oImg,'no-repeat');
+        //     ctx.fillStyle = fill;
+        //     ctx.fillRect(0,0,500,500);
+        // }
+
+        //渐变
+        var bg = ctx.createLinearGradient(0,0,500,500);
+        bg.addColorStop(0,'red');
+        bg.addColorStop(0.5,'blue');
+        bg.addColorStop(1,'green');
+        //需要将渐变颜色填充
+        ctx.fillStyle = bg;
+        ctx.fillRect(0,0,500,500);
+    </script>
+</body>
+</html>
