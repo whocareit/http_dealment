@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>svg</title>
+    <style>
+        svg {
+            border: 1px solid black;
+        }
+
+        line {
+            stroke: red;
+            stroke-width: 20px;
+            /* 设置将线段两边加宽为现宽的一半并且设置为圆角 butt默认样式  square左右两边加宽
+                stroke-linejoin 设置两条线段之间连线的角的样式
+             */
+            stroke-linecap: round;
+        }
+
+        rect {
+            fill: transparent;
+            stroke: green;
+        }
+
+        circle {
+            fill: red;
+        }
+
+        ellipse {
+            fill: green;
+        }
+
+        polyline {
+            fill: transparent;
+            stroke: green;
+        }
+
+        polygon {
+            fill: transparent;
+            stroke: red;
+            stroke-width: 20;
+            stroke-linejoin: round;
+        }
+
+        path{
+            stroke-width: 10px;
+            stroke-linecap: round;
+            fill: transparent; 
+        }
+
+        #path1 {
+            stroke: #ccc;     
+        }
+
+        #path2 {
+            stroke: orange;  
+            stroke-dasharray: 1000px;
+            stroke-dashoffset: 1000px;   
+            transition: stroke-dashoffset 1s linear;   
+        }
+
+        /* @keyframes move{
+            0%{
+                stroke-dashoffset: 0px;
+            }
+            100%{
+                stroke-dashoffset: 1000px;
+            }
+        } */
+
+        /* 抽风路径
+        path {
+            stroke: blue;  
+            stroke-width: 20px;
+            stroke-dasharray: 500px;
+            stroke-dashoffset: 0px;
+            alternate实现数值正负之间的转换 infinite实现动画无限次
+            animation: move 1s linear alternate infinite;
+        }
+        @keyframes move{
+            0%{
+                stroke-dashoffset: 0px;
+            }
+            100%{
+                stroke-dashoffset: 500px;
+            }
+        } */
+    </style>
+</head>
+
+<body>
+    <input type="text" id="btn">
+    <svg width=500 height=500>
+        <!-- 
+            svg 可伸缩矢量图形  在放大缩小时不会造成失针
+            
+            直线 属性上设置了两个点表示两个点之间的连线
+            <line x1=100 y1=100 x2=200 y2=100></line>
+
+            正方形 设置点 后面的属性表示设置正方形的长和宽
+            <rect x=300 y=100 width=100 height=50 rx=30 ry=10></rect>
+
+            圆形 后两个属性表示坐标圆点
+            <circle r="50" cx="100" cy="200"></circle>
+
+            椭圆 rx与ry表示的是长轴与短轴 cx与cy表示的是椭圆的中心点
+            <ellipse rx="100" ry="50" cx="200" cy="200"></ellipse> 
+
+            折线 points后面的表示各个坐标点可以不写逗号但是最好是写上
+            <polyline points="60 50,75 35,100 50,125 35,150 50"></polyline>
+
+            多边形 
+            <polygon points="150 130, 200 250,140 150"></polygon>
+
+            文本
+            <text x="125" y="125">hello word</text>
+
+            -->
+
+        <!--M 表示绝对像素点第一个坐标 L后表示绝对像素点之后的坐标 小写表示相对的定位点
+            <path d="M 20 20 L 200 220"></path>
+            <path d="M 20 20 l 100 100"></path>
+
+            H 表示向水平方向移动距离 V 表示向竖直方向移动的距离 这里的小写也表示相对定位的意思
+            Z 不分大小写在这里表示的是闭合图案
+            <path d="M 100 100 H 200 V 200 Z"></path>
+
+            有A后面有七个参数 依次为rx ry x-axis-rotation large-arc-flag sweep-flag x y
+            rx ry 圆弧的x轴半径和y轴半径
+            x-axis-rotation 圆弧相对于x轴的旋转角度，默认是顺时针，可以设置为负值
+            large-arc-flag 表示圆弧路径是大圆弧还是小圆弧 1表示大圆弧
+            sweep-flag 表示从起点到终点是顺时针还是逆时针，1表示顺时针 0表示逆时针
+            x y表示终点坐标
+            <path d="M 150 100 A 70 120 90 1 1 150 120"></path>
+
+            二次贝塞尔曲线 Q x1 y1 x2 y2 表示二次贝塞尔曲线的另外两个顶点
+                          T x y  表示之后的延升点
+            <path d=" M 100 200 Q 200 100 300 100"></path>
+
+            三次贝塞尔曲线 C x1 y1 x2 y2 x3 y3 S x y x0 y0
+
+            自动生成svg图案路径
+                        https://editor.method.ac/
+             -->
+
+        <!-- 线性渐变
+         <defs>
+            <linearGradient id="bg1" x1="0" y1="0" x2="0" y2="100%">
+                <stop offset="0%" style="stop-color: rgba(255,255,0);"></stop>
+                <stop offset="100%" style="stop-color: rgba(255,0,0);"></stop>
+            </linearGradient>
+        </defs>
+            <rect x='0' y='0' width='500' height='500' style='fill:url(#bg1);'></rect> 
+
+        径向渐变
+        <defs>
+            <radialGradient id="bg1" x1="0" y1="0" x2="0" y2="100%">
+                <stop offset="0%" style="stop-color: rgba(255,255,0);"></stop>
+                <stop offset="100%" style="stop-color: rgba(255,0,0);"></stop>
+            </radialGradient>
+        </defs>
+            <rect x='0' y='0' width='500' height='500' style='fill:url(#bg1);'></rect> 
+        
+        svg滤镜
+
+        svg路径动画
+        stroke-dasharry 参数值后面跟像素值 按照先实线后虚线的样式直接执行像素，直到最后一个像素执行完成为止
+        stroke-dashoffset  表示缩进正值表示向左缩进，负值表示向右缩进
+        <path d="M 0 100 L 500 100"></path>
+
+        路经获取
+        getTotalLength 获取路径总长度        getPointAtLength(x) 获取路径上距离最初点x距离的坐标位置
+        注意 从严格意义上来说，上面两种方法都只适用于path，但是由于各浏览器支持的情况不同，谷歌浏览器的line也支持这两种放啊
+
+        viewBox
+        <svg width='400' height='300' viewBox='0 0 40 30'></svg> 与画布大小等比例设置，也可以不用等比例设置，但是会自动伸缩
+         
+        preserveAspectRatio
+          xMin xMid xMax  x轴上 左中右对齐
+          yMin yMid yMax  y轴上 上中下对齐
+          meet slice none 设置填充方式
+          eg: svg.setAttribute("preserveAspectRatio" ,"xMin yMid meet") 当设置none时，不需要其设置x y轴上的对齐方式
+
+        js动态生成svg元素时，使用document.createElementNS(char,rect) 其中char = 'http://www.w3.org/2000/svg',svg是XML元素
+        svg对象调用时一般通过setAttribute()方法来设定属性值
+        --> 
+        <path id="path1" d="M 200 300 A 100 100 0 1 1 300 300"></path>
+        <path id="path2" d="M 200 300 A 100 100 0 1 1 300 300"></path>
+             
+    </svg>
+    <script>
+        var path2 = document.getElementById('path2');
+        var len = path2.getTotalLength();
+        var btn = document.getElementById('btn');
+        btn.onblur = function(){
+            var value = this.value;
+            var total = len * value / 100;
+            path2.style.strokeDashoffset = 1000 - total + 'px';
+        }
+        btn.onfocus = function(){
+            path2.style.strokeDashoffset = 1000 + 'px';
+        }
+    </script>
+</body>
+
+</html>
