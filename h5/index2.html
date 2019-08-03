@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>H5获取地理位置</title>
+</head>
+<body>
+    <!-- 
+        geolocation
+        window.navigator.geolaocation
+
+        1.getCurrentPosition(s,e,p)  success 回调(必须) error回调  option 参数  
+        使用chrome时需要进行翻墙才能获取到所需信息，如果获取数据成功了，
+        position下面的几个参数
+        latitude 纬度  longitude 经度  altitu 海拔   accurac 精确定位  altitudeAccuracy 海拔精确度  heading 方向 speed 速度
+        positionError对象
+        用户拒绝 code = 1  获取不到 code = 2 获取失败 code = 3
+        options
+        enableHighAccurary 是否获得高精度位置默认为false  timeout 单位是ms请求超过时间默认为inifite 
+        maximumAge 单位ms,watchPosition方法则不断获取用户的地理位置信息，位置信息过期时间设置为0 表示无条件的获取新的地理位置信息
+
+        2.watchPosition
+        var id = gelocation.watchPosition(fn) 用于注册监听器，在设备的地理位置发生改变的时候自动被调用 参数与getCurrentPosition相同
+        clearWatch(id)使用clearWatch清除监听
+
+        3.devicemotion事件 监听加速度变化
+        window.addEventLister('deviceMotion',function(event){
+            consolo.log(event)
+        })
+        accelerationIncludingGravity(包含了地心引力，在Z轴上加上重力加速度g) 重力加速度
+        acceleration 重力加速度(陀螺仪)
+        rotationRate(alpha,beta,gamma) 旋转速率  alpha表示设备沿z轴上的旋转角度，范围0~360 beta表示设备在x轴上的旋转角度，范围-180~180,描述设备向前
+        向后旋转     gamma  表示设备在y轴上的旋转角度,范围-90~90 描述设备左向右旋转                                      
+        interval 获取时间间隔  以上属性均为只读属性
+     -->
+     <script>
+         var suc =  function(pos){
+             console.log(pos);
+         }
+         function ero(pos){
+             console.log(pos);
+         }
+         var options = {
+             enableHighAccurary : true,
+             timeout: 2000
+         }
+
+         window.navigator.geolocation.getCurrentPosition(suc,ero,options);
+     </script>
+</body>
+</html>

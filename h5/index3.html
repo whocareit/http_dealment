@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>多媒体</title>
+   
+</head>
+
+<body>
+    <!-- 
+        audio音频 1.controls有控制面板出现能够直接控制播放  2.autoplay能够实现音频在刷新时自动播放
+                3.preload(none/metadata/auto) 规定是否在页面加载后载入视频  none 表示不需要加载数据
+                metadata 原数据 诸如加载时长，比特率，帧数率这样的原数据而不是媒体内容需要加载
+                auto 浏览器应该加载它认为适量的媒体内容
+                4.loop 是否循环播放音/视频
+                5.poster(video独有) 当视频不可以使用时，使用一张图片代替 poster = './' 否则就会是空白
+                通常都会将帧数率为0的第一张图片作为poster内容，防止视频内容没有被加载出来时有内容展示
+     -->
+    <!-- <audio src="./name.mp3" controls autoplay preload="auto"></audio> -->
+
+    <!--  多资源整合 
+        <audio id="music">
+            <source src="name.mp3" type="audio/mpeg">
+            <source src="name.ogg" type="audio/ogg">
+        </audio> 
+    -->
+    <button id="play">play</button>
+    <button id="pause">pause</button>
+    <button id="load">reload</button>
+    <button id="add">+</button>
+    <button id="muns">-</button>
+    <button id="speed">speed</button>
+    <button id="position">position</button>
+    <script>
+        //第一种创建方式
+        var audio = new Audio('./name.mp3');
+        audio.controls = true;
+        audio.loop = true;
+        audio.autoplay = true;
+        audio.preload = "auto";
+        document.body.appendChild(audio);
+
+        //第二种创建方式
+        // var audio = document.createElement('audio');
+        // audio.src = "./name.mp3";
+        // document.body.appendChild(audio);
+        // //有两种方式可以代替1.audio.controls = true; 2.audio.controls = "controls";
+        // audio.controls = true;
+        // audio.loop = true;
+        // audio.autoplay = true;
+        // audio.preload = "auto";
+
+        window.onload = function() {
+            //输出文件地址
+            console.log(audio.currentSrc);
+        }
+        play.onclick = function (){
+            //播放方法Play
+            audio.play();
+        }
+        pause.onclick = function(){
+            //暂停方法pause
+            audio.pause();
+        }
+        load.onclick = function(){
+            //重新加载视频，用于更改来源或者是其他设置以后对音频或者视频进行重新加载
+            audio.load();
+        }
+        //设置音频或者是视频的音量在小 volume的范围在0 到 1之间，当超过范围时就会报错
+        //audio.muted = true 设置时，音频为静音，当其为false时，音频恢复之前的音量
+        audio.volume = 0.5;
+        add.onclick = function(){
+            if(audio.volume >= 1){
+                audio.volume = 1
+            }else{
+                audio.volume  = audio.volume + 0.1;
+            }     
+        }
+        muns.onclick = function(){
+            if(audio.volume <= 0){
+                audio.volume = 0
+            }else{
+                audio.volume  = audio.volume - 0.1;
+            }   
+        }
+        speed.onclick = function(){
+            //播放倍速控制，当降低或者加快到一定倍速时，音频或者是视频就会自动的停止
+            //playbackRate 1为正常播放速度，大于1为加快，小于1为回放，现在一般不会有此功能出现，都是通过进度条展示
+            audio.playbackRate = 4;
+        }
+        //currentTime/duration属性
+        //currentTime 设置或者返回当前音频或者视频的播放位置
+        position.onclick = function(){
+            audio.currentTime = 50;
+            //audio.currentTime返回当前音频播放时间
+        }
+        window.onload = function(){
+            //返回当前音频总的播放时间为多少
+            console.log(audio.duration);
+        }
+        //TimeRanges对象，有三个属性played属性返回当前已经播放的时间段，buffered属性返回当前已经缓冲过的时间段，seekable
+        //返回用户跳转的时间段，三个属性都是TimeRanges的对象，每个对象都有一个length属性以及start()和end()方法，length表示
+        //当前的一个时间段，start()和end()分别返回起始时间点和结束时间点(单位是秒)
+
+        //paused/seeking/ended 这三个属性用来查询媒播放状态，pause为true表示播放器停止，seeking为true表示播放器正在调到一个新的播放点
+        //如果播放器播放并且停下来，则ended属性为true
+
+        //事件 play开始播放触发，pause暂停触发 loadedmetadata 浏览器获取完媒体的原数据触发 loadedadata 浏览器已经加载完当前帧数据准备触发
+        //ended 当前播放结束后触发
+    </script>
+</body>
+
+</html>

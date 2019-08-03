@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        .btn {
+            position: absolute;
+            left: 0;
+            top: 100px;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+        动画优化  动画的实质是每隔多少毫秒物体就发生改变，而人眼不能辨别这个变化的过程看起来就像是在运动的过程
+        之前在使用setTimeout或者时setInterval时，其发生改变的过程是浏览器不断的刷新，来监听这个变化的过程，其
+        刷新的时间是1000/60大概是每16毫秒就会刷新一次  另外由于js是单线程处理方式，当前面执行完之后才会执行后
+        面的内容，因而也会导致这个时间不准确在动画中 requestAnimationFrame来处理动画的过程可能会更加的好
+        requestAnimationFrame
+           1.页面刷新前执行一次  2.1000ms 60fps——>16ms  3.cancelAnimation 4.用法和setTiomout类似
+
+        兼容性封装
+        window.requestAnimationFrame = (function(){
+            return window.requestAnimationFrame ||
+                   window.webkitRequestAnimationFrame ||
+                   wimdow.mozRequestAnimationFrame ||
+                   function(callback){
+                        window.setTimeout(callback,1000/60);
+                   }
+        }())
+
+        window.cancelAnimationFrame = (function(){
+            return window.cancelAnimationFrame ||
+                   window.webkitCancelAnimationFrame ||
+                   window.mozCancelAnimation ||
+                   function(id){
+                       window.clearTimeout(id);
+                   }
+        }())
+     -->
+    <div class="btn"></div>
+    <script>
+
+        window.c = (function () {
+            return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                wimdow.mozRequestAnimationFrame ||
+                function (callback) {
+                    window.setTimeout(callback, 1000 / 60);
+                }
+        }())
+
+        window.cancelAnimationFrame = (function () {
+            return window.cancelAnimationFrame ||
+                window.webkitCancelAnimationFrame ||
+                window.mozCancelAnimation ||
+                function (id) {
+                    window.clearTimeout(id);
+                }
+        }())
+
+        var btn = document.getElementsByClassName('btn')[0];
+        var timer = null;
+        function move() {
+            btn.style.left = btn.offsetLeft + 10 + 'px';
+            if (btn.offsetLeft >= 400) {
+                btn.style.left = 400 + 'px';
+                cancelAnimationFrame(timer);
+            } else {
+                timer = requestAnimationFrame(move);
+            }
+        }
+        move();
+    </script>
+</body>
+
+</html>

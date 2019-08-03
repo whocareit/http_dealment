@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>web socket</title>
+</head>
+<body>
+    <script>
+        // 一种网络请求的方式，其优点是服务端和客户端均可以主动发送数据
+        //建立连接的过程 
+        //当web应用程序调用new webSocket('url')时，浏览器就开始与地址为url的socket建立联系，具体过程如下
+        //1.浏览器与socket服务器之间通过tcp协议进行握手，建立失败则不进行下面的操作
+        //2.tcp建立成功后，浏览器通过http协议传送给websocket支持的版本号，协议的字版号，原始地址，主机地址等一系列字段给服务器
+        //3.webSocket接收到信息之后进行一一比对，如果所有的信息都正确就会发送数据包回去
+        //4.浏览器接收到数据包之后，数据包中的内容如果没有错误，表示本次连接就成功触发onopen，失败则触发onerror
+
+        //官方提供的测试socket服务器的地址ws://echo.websocket.org/.
+        var socket = new WebSocket('ws://echo.websocket.org/.');
+        socket.onopen = function(){
+            socket.send('hello');
+        }
+        socket.onmessage = function(e){
+            console.log("message");
+            console.log(e);
+            console.log(e.data);
+            socket.close();
+        }
+        socket.onclose = function(e){
+            console.log('close');
+            console.log(e);
+        }
+        socket.onerror = function(){
+            console.log('error');
+        }
+    </script>
+</body>
+</html>

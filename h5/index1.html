@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 客户端存储
+        1.localStorage 永久性的储存数据
+          储存方法  localStorage.name = 'anima'
+                   localStorage.info = JSON.stringofy({name:'anima',company:'tecent'}) 以对象的形式储存
+          取数据方法
+                   localStorage.name   JSON.parse(localStorage.info)
+        2.储存的有效期  localStorage 永久性，除非自己删除
+                       sessionStorage 临时，窗口关闭就自动删除
+        
+        3.作用域    localStorage  文档源限制 
+                   sessionStorage 文档源限制 + 窗口    
+        在加载的过程中，两个都会受到同源策略的影响，之前在一个服务器储存的数据，在另一个服务器上并没有。
+        sessionStorage还受到窗口的影响，在之前不同的窗口储存的数据，在另一个窗口上也没有
+
+        防止乱码的方式,常用于文字转码，尤其是在cookie中使用频繁
+        encodeURLComponent()
+        decodeURLComponent()
+
+        API  localStorage中封装的一些方法，不用像在cookie中一样自己手动封装 使用方式localStorage.getItem('domino')
+        setItem(name,val) 设置属性     getItem(name)获得属性值    removeItem(name)移除某个属性  clear()清除所有属性
+
+        特性
+        cookie 生命周期:自己可以设定生命周期的长短     存放数据大小:4K左右   与服务器通信:每次都会携带在HTTP头中，过多使用cookie会带来性能问题
+        易用性: 需要程序员自己封装好，源生的接口并不好  
+        localStorage 生命周期: 永久性，除非自己删除    存放数据大小: 5M左右  与服务器通信:存在于客户端中，不参与通信  
+        易用性: 源生方法可以使用，也可另行封装
+        sessionStorage 生命周期: 窗口存在时，一旦窗口关闭自动删除   存放数据大小: 5M左右  与服务器通信:存在于客户端中，不参与通信  
+        易用性: 源生方法可以使用，也可另行封装
+
+        历史记录 history
+        history.length(表示当前浏览的历史记录有多少条)
+        1. history.back()返回之前的浏览记录 2.history.forword()到这之前的历史记录  3.history.go(n)到具体的浏览历史记录，中间的n填写数字
+
+        管理历史记录的原因，是方便用户的操作
+
+        SPA 单页面操作
+        通过修改hash和hashchange事件来实现历史记录的管理
+        1.pushState history.pushState(state,title,url) 添加一条历史记录
+        2.replaceState history.replaceState(state,title,url) 替换当前的历史记录
+        参数
+            state: 一个与指定网址相关的状态对象，popstate事件触发时，该对象会传入到回调函数当中。如果不需要该对象，此处可以写null
+            title：新页面的标题，但是所有浏览器都忽略这个值，因此可以写null
+            url：新的网址 ，必须与当前页面处在同一个域之中，浏览器的地址栏将显示这个地址
+
+        事件：1.popstate事件  历史记录发生改变时触发
+                调用history.pushState()或者history.repalceState()不会触发popstate事件
+             2.hashchange事件 当页面的hash值改变时触发，常用于构建单页面应用
+
+        worker var worker = new Worker('worker.js') 
+               worker文件必须和主文件满足同源策略
+
+    -->
+</body>
+</html>

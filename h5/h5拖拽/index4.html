@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>h5拖拽事件</title>
+    <style>
+        #item1{
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+        #item2{
+            width: 100px;
+            height: 100px;
+            background: blue;
+        }
+        #wrapper{
+            width: 300px;
+            margin-top: 50px;
+            height: 300px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <!-- 使用draggable属性，表示可以拖拽此标签，但是其与js不一样的是，js实现的事件是操作的dom，此
+        属性的作用是拖拽后原位置没有发生改变，当鼠标松开后拖拽过程中看到的元素还是会返回到原位置
+    -->
+    <div id="item1" draggable="true"></div>
+    <div id="item2" draggable="true"></div>
+    <div id="wrapper"></div>
+    <script>
+        //拖拽相关事件 
+        // dragstart 被拖拽元素开始时被触发  dragend 被拖拽元素结束时触发即鼠标松开时
+        // dragenter 目标元素(此事件是绑定在目标元素上的) 拖拽元素进入目标元素时被触发
+        // dragover 目标元素 拖拽元素在目标元素上移动时触发 drop 目标元素  被拖拽元素在目标元素上时同时松开鼠标后才会被触发
+        // 注意需要阻止默认dargover的默认事件之后才会触发该事件
+
+        //拖拽事件传值  e.dataTransfer.setData("data",id);  e.dataTransfer.getData("data");
+        var oItem1 = document.getElementById('item1');
+        var oWrapper = document.getElementById('wrapper');
+        oItem1.addEventListener('dragstart',function(e){
+            e.dataTransfer.setData("data",this.id);//为了辨别是哪一个目标元素进入
+            console.log('dragstart');
+        })
+        oItem1.addEventListener('dragend',function(){
+            console.log('dragend');
+        })
+        //下面的事件都是绑定在目标元素上
+        oWrapper.addEventListener('dragenter',function(){
+            console.log('dragenter');//当鼠标进入目标区域之后才会被触发
+        })
+        oWrapper.addEventListener('dragover',function(e){
+            //只有当阻止了默认事件之后才会触发后面的drop事件,此时先触发drop后触发dragend
+            e.preventDefault();
+            console.log('dragover');
+        })
+        oWrapper.addEventListener('drop',function(e){
+            var data = e.dataTransfer.getData("data");//获取到进入的拖拽元素
+            console.log(data);
+            console.log('drop');
+        })
+    </script>
+</body>
+</html>
