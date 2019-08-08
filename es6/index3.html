@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Promise封装</title>
+</head>
+
+<body>
+    <script>
+        //Promise需要实现以下部分的功能
+        //Promise对象 调用then方法 then(resolved,rejected)
+        //then 返回Promise对象 可以实现链式调用
+        function myPromise(fn) {
+            if (typeof fn !== 'function') {
+                throw Error(`Promise resolver ${fn} is not a function`);
+            }
+
+            //保存当前的this,让this指向当前状态的myPromise对象，调用myPromise对象后
+            //将会有两个结果状态的返回即，pending->resolved pending->rejected
+            var self = this;
+            //返回当前的状态
+            this.status = 'pending';
+            //用于输出resolved与rejected中的数据
+            this.data = null;
+            //用数组去存储
+            this.resolvedArr = [];
+            this.rejectedArr = [];
+
+            function resolved(data) {
+                setTimeout(function () {
+                    if (self.status == 'pending') {
+                        self.status = 'resolved';
+                        self.data = data;
+                    }
+                }, 0)
+            }
+            function rejected(err) {
+                setTimeout(function () {
+                    if (self.status == 'pending') {
+                        self.status = 'rejected';
+                        self.data = self;
+                    }
+                }, 0)
+            }
+            //调用resolved和rejected两个回调函数
+            fn(resolved, rejected)
+        }
+        //对then方法进行封装
+        myPromise.prototype.then = function (onResolved, onRejected) {
+            var self = this;
+            //实现链式调用后返回一个myPromise对象
+            if (this.status == 'resolved') {
+                return new myPromise(function (resolved, rejected) {
+                    //res用于表述当前onResolved参数所传入的形式
+                    var res = onResolved(self.data);
+                    if (res instanceof myPromise) {
+                        //如果传入的参数是myPromised的对象，就继续执行then方法
+                        res.then(resolved, rejected);
+                    } else {
+                        resolved(res);
+                    }
+                })
+            }
+            if (this.status == 'rejected') {
+                return new myPromise(function (resolved, rejected) {
+                    //res用于表述当前onRejected参数所传入的形式
+                    var res = onRejected(self.data);
+                    if (res instanceof myPromise) {
+                        //如果传入的参数是myPromised的对象，就继续执行then方法
+                        res.then(resolved, rejected);
+                    } else {
+                        resolved(res);
+                    }
+                })
+            }
+            if (this.status == 'pending') {
+                return new myPromise(function (resolved, rejected) {
+                    self.resolvedArr.push((function () {
+                        return function () {
+                            var res = onResolved(self.data)
+                            if (res instanceof myPromise) {
+                                //如果传入的参数是myPromised的对象，就继续执行then方法
+                                res.then(resolved, rejected);
+                            } else {
+                                resolved(res);
+                            }
+                        }
+                    })(onResolved))
+                    self.rejectedArr.push((function () {
+                        return function () {
+                            var res = onRejected(self.data)
+                            if (res instanceof myPromise) {
+                                //如果传入的参数是myPromised的对象，就继续执行then方法
+                                res.then(resolved, rejected);
+                            } else {
+                                resolved(res);
+                            }
+                        }
+                    })(onRejected))
+                })
+            }
+        }
+
+        var mp = new myPromise(function (resolved, rejected) {
+            resolved(123);
+        })
+        // console.log(mp);
+
+    </script>
+</body>
+
+</html>

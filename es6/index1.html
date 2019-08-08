@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>class AND Promise</title>
+</head>
+<body>
+    <script>
+        // es6中类，就是通常所说的对象，但是其本质还是一个函数
+        // class Person{
+        //     //constructor是一个构造方法,是类中的默认方法，如果没有定义，在类中会自动的添加上
+        //     constructor(cool = 'so', look = 'well'){
+        //         this.cool = cool;
+        //         this.look = look;
+        //     }
+        //     //在类中，使用showM方法时，不需要使用“,”来进行分割，其实质相当于定义在对象上原型上的方法
+        //     showM(){
+        //         console.log(this.cool,this.look);
+        //     }
+        // }
+        // var person = new Person();
+        //console.log(Person.prototype.showM == person.showM) //结果为true
+        // person.showM();
+        // console.log(typeof Person)
+        // console.log(person);
+
+        //下面对象的定义方式等于上面类中方法的定义
+        // function Person(){
+        //     this.cool = cool;
+        //     this.look = look;
+        // }
+        // Person.prototype.showM = function(){}
+
+        // class A{
+        //     constructor(){
+        //         this.name = 'xm'
+        //     }
+        // }
+        // var person = new A();
+        // console.log(person.name);
+
+        // class Person{
+        //     constructor(){
+        //         this.name = 'xm';
+        //         //此时将showM的方法中的this指向绑定在了自己身上
+        //         this.showM = this.showM.bind(this);
+        //     }
+        //     showM(){
+        //         this.print(`my name is ${this.name}`);
+        //     }
+        //     print(data){
+        //         console.log(data);
+        //     }
+        // }
+        //尤其注意在es6中，要先定义类，然后才来定义对象
+        // var person = new Person();
+        // var { showM } = person;
+        //此时两者所打印出来的结果是相同的，都表示的是showM方法,但是在执行过程中会出现
+        //错误，这是因为在person中其可以自动的调用到构造函数中的this.name,后面的内容报错
+        //是因为其this的指向是指向在了全局，当使用bind(this)后，this的指向改变，因而就能
+        //输出想要的结果
+        // console.log(person.showM);
+        //console.log(showM())
+
+        // var obj = {
+        //     name: 'xm',
+        //     showM: function(){
+        //         console.log(this.name);
+        //     }
+        // }
+        // var fn = obj.showM
+        //此时的结果为undifined,因为此时this的指向为全局而不是obj
+        // console.log(fn());
+
+        //class中的继承
+        //在es6中继承使用的是通过extends的方法来实现的，在es6之前使用的都是原型链的方式来实现的继承
+        // class Point{
+
+        // }
+        // class PointSon extends Point{
+        //     constructor(x,y,color){
+        //         super(x,y);// 调用父类的constructor(x,y)
+        //         this.color = color;
+        //     }
+        //     toStirng(){
+        //         return this.color + ' ' + super.toStirng()//表示调用父类的toSting()
+        //     }
+        // }
+        //在子类中，必须使用super关键字，否则新建实例的时候会报错，这是因为子类自己的this对象，必须先通过父类的
+        //构造函数完成塑造，子类中如果没有调用super方法之前就是用this关键字也会报错
+
+        // class Point {
+        //     constructor(x,y){
+        //         this.x = x;
+        //         this.y = y;
+        //     }
+        // }
+        // class ColorPoint extends Point{
+        //     constructor(x,y,color){
+        //         this.color = color; //会报错
+        //         super(x,y);
+        //         this.color = color; //正确
+        //     }
+        // }
+
+        //Object.getPrototypeOf(),用来从子类上获取父类
+        //console.log(Object.getPrototypeOf(ColorPoint) === Point);
+
+        //super关键字，即可以当函数使用，也可以当对象使用
+
+        //第一种,super作为函数使用，代表父类的构造函数，es6要求，子类的构造函数必须执行一次super函数
+        //需要注意的是，这里的super虽然代表的是父类的构造函数，但是此时在这里super内部的this还是指向
+        //子类B，作为函数时super只能用于子类的构造函数之中，用在其他的地方就会报错
+        // class A{}
+        // class B extends A{
+        //     constructor(){
+        //         super()
+        //     }
+        // }
+
+        //第二种情况，super作为对象，在普通方法中，指向父类的原型方法；在静态的方法中，指向父类
+        //在下面的代码中,子类的super.p(),就是将super当作一个对象在使用,这时的super是在普通的方法
+        //之中,指向A.prototype,所以super.p()将相当于A.prototype.p()
+        // class A{
+        //     p(){
+        //         return 2;
+        //     }
+        // }
+        // class B extends A{
+        //     constructor(){
+        //         super();
+        //         console.log(super.p());
+        //     }
+        // }
+        // let b = new B();
+
+        //此时虽然super.print()指向的是父类中的方法,但是此时的this是指向子类
+        //因此在这里输出的结果是2而不是1,因此实际上是super.print.call(this)
+        // class A{
+        //     constructor(){
+        //         this.x = 1;
+        //     }
+        //     print(){
+        //         console.log(this.x);
+        //     }
+        // }
+        // class B extends A{
+        //     constructor(){
+        //         super();
+        //         this.x = 2;
+        //     }
+        //     m(){
+        //         super.print();
+        //     }
+        // }
+        // let b = new B();
+        // b.m();
+
+        //此时在子类中通过super对某个属性赋值,这时的super就是this
+        //赋值的属性就会变成子类实例的属性
+        //super.x = 3就相当于 this.x = 3,而当读取到super.x时,返回的
+        //是A.prototype.x则返回的结果是undefined
+        // class A {
+        //     constructor(){
+        //         this.x = 1;
+        //     }
+        // }
+        // class B extends A{
+        //     constructor(){
+        //         super();
+        //         this.x = 2;
+        //         super.x = 3;
+        //         console.log(super.x);//undefined
+        //         console.log(this.x);//3
+        //     }
+        // }
+        // let b = new B();
+
+        //如果super作为对象,用在静态方法之中,这时的super指向的是父类
+        //而不是父类的原型,另外在子类的静态方法中调用父类的方法时,方法
+        //内部的this是指向当前的子类,而不是子类的实例.
+        //在下面的代码中,静态方法B.m中,super.print指向的父类的静态方法
+        //this指向的是B,而不是B的实例
+        class A{
+            constructor(){
+                this.x = 1;
+            }
+            static print(){
+                console.log(this.x);
+            }
+        }
+        class B extends A{
+            constructor(){
+                super();
+                this.x = 2;
+            }
+            static m(){
+                super.print();
+            }
+        }
+        B.x = 3;
+        console.log(B.m());
+
+
+    </script>
+</body>
+</html>

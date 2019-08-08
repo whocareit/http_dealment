@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // // 字符串新增模板 使用``符号,可以换行也可以不换行
+        // str = `djsjdksajd
+        // dsdsadlask`
+        // console.log(str);
+        // //字符串连接使用${变量,函数}与es6中的``一起使用
+        // var name = `zhen`;
+        // var tony = `hair`;
+        // str1 = `hello ${name} i am ${tony}`;
+        // console.log(str1);
+
+        // function show(){
+        //     console.log(arguments);
+        // }
+        // //此时表示签约模板，最后输出的是变量个数，加上字符串，变量将字符串分为一个数组，此数组又有三个元素。
+        // show`hello ${name} i am ${tony}`;
+        // //等价于show([['hello ',' i am ', ''],name,tony])的调用
+
+        //防止网页被恶意的攻击
+        // var words = '<script>alter("aaa")<\/script>';
+        // safeHTML`<p>${words} welcome to sads !!!!!</p>`;
+        // function safeHTML(data){
+        //     var str = data[0];
+        //     for(var i = 1; i < arguments.length; i++){
+        //         var arg = String(arguments[i]);
+        //         str += arg.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt');
+        //         str+=data[i];
+        //     }
+        //     console.log(str);
+        // }
+
+        //...arg打散数组又重组
+        // function fn(...arg){
+        //     console.log(arg);
+        // }
+        // //fn(1,2,3,4,5);//此时会输出一个数组
+
+        // var arr = [1,2,3,4,5];
+
+        // fn.call(null,...arr);
+        // fn.apply(null,[1,2,3,4,5]);//此时两者都会得到相同的结果
+
+        //箭头函数,当参数只有一个时，不需要()当参数又括号时需要(),
+        // var fn = num => {
+        //     num  = num * 100;
+        //     return num;
+        // }
+        // console.log(fn(30));
+
+        //用于表示函数的嵌套
+        // var fn = str => () => str.split('')
+
+        // function fn1(str){
+        //     return function(){
+        //         return str.split('');
+        //     }
+        // }
+        // console.log(fn('saf')());
+
+        //ECMAScript 是 javascript的一个标准，js就是去实现这个标准的
+        //块级作用域 好处，可以去防止变量的污染
+
+        //变量提升，此时存在变量提升,就是预编译的过程
+        // var num = 100;
+        // function fn(){
+        //     //num undefined
+        //     console.log(num);
+        //     if(false){
+        //         //num=10
+        //         var num = 10;
+        //     }
+        // }
+        // fn()
+
+        //let作用1.let只在它所在的区域内有效  2.不存在变量提升
+        //3.暂时性死区  4.不允许重复声明
+
+        //前者出现变量提升，后者是因为let改变了语法行为，它声明的变量一定要在声明后使用。
+        // console.log(foo); 
+        // var foo = 2;
+
+        // console.log(bar);
+        // let bar = 1;
+
+        //let,在闭包中产生的问题使用let来解决
+        // var arr = [];
+        // for(var i = 0; i < 10; i++){
+        //     (function(j){
+        //         arr[j] = function(){
+        //             console.log(j);
+        //         }
+        //     })(i)
+        // }
+        // arr[3](); 
+
+        //此时i的作用域不同，let i = 0的作用域在外部，arr[i]中的作用域在内部，因而就不会产生闭包问题
+        // for(let i = 0; i < 10; i++){
+        //     arr[i] = function(){
+        //         console.log(i)
+        //     }
+        // }
+        // arr[9]();
+
+        //暂时性死区，只要块级元素的作用域存在let,它所声明的变量就会绑定在这个区域内，不会受到外部变量的影响
+        //总之，在代码块内，使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”（temporal dead zone，简称 TDZ）。
+        // if (true) {
+        //     // 代码区
+        //     tmp = 'abc'; // ReferenceError
+        //     console.log(tmp); // ReferenceError
+
+        //     let tmp; // 暂时性死区的辨别标志
+        //     console.log(tmp); // undefined
+
+        //     tmp = 123;
+        //     console.log(tmp); // 123
+        // }
+
+
+        //const 声明一个只读常量，一旦声明常量的值就不能改变，使用const变量时，必须要给变量赋值否则就会报错
+        //const的作用域与let命令相同，只在声明所在的块级作用域内有效
+        //const PI;//错误
+        // const Pi= Math.PI;
+        // console.log(Pi)
+
+
+        //数组的解构赋值
+        //ES6允许一定模式，从数组和对象中取值，对变量进行赋值，这称为解构赋值
+        //在ES6中下面的写法是被允许的
+        // let [a, b, c] = [2, 3, 4];
+        // console.log(a, b, c);//此时对应 a:2 b:3 c:4
+        // let [, , third] = ["foo", "bar", "fee"];
+        // console.log(third); //此时得third为字符串fee
+        // let [head, ...end] = [1, 2, 3, 4, 5];
+        // console.log(head, end);//此时head为1 end为[2,3,4,5]
+        // let [x, y, ...z] = ['a'];
+        // console.log(x,y,z);// x: "a" y undefined z []
+        //如果结构不成功，变量得值就为undefiend
+
+        //不完全解构
+        // let [a,[b],c] = [1,[2,3],4];
+        // console.log(a,b,c);//此时得a为1 b为2 c为4
+
+        //如果等号得右边不是数组，那么也将会报错，下面的所有例子中都会出现报错的情况
+        // let [foo] = 1;
+        // let [foo] = false;
+        // let [foo] = NaN;
+        // let [foo] = undefined;
+        // let [foo] = null;
+        // let [foo] = {};
+
+        //对于Set结构，也可以使用数组的解析赋值,原则上只要某种数据结构具有Iterator接口，都可以采用数组形式的解构赋值
+        //let [x,y,z] = new Set(["a","b","c"]);
+        //console.log(x,y,z); // x: 'a' y: 'b' z: 'c'
+
+        //默认值,解析解构允许指定默认值
+        //let [foo = true] = [];//此时的foo = true
+        //let [x ,y = 'b'] = ['a']//此时 x: 'a'  y: 'b'
+        //let[x = 1] = [undefined]; //此时的x为1
+        //let[x = 1] = [null]; //此时的x为null
+
+        //当默认值是一个表达式是，只有用到默认值时，函数才会执行
+        // function fn(){
+        //     console.log('you are so cool');
+        // }
+        // let[a = fn()] = [1];//此时的a值为1
+        // console.log(a);
+
+        //默认值也可以引用解构赋值的其他变量
+        //let[x = 1,y = x] = []; // x:1 y:1
+        //let[x = 1,y = x] = [2]; // x:2 y:2
+        //let[x = 1,y = x] = [1,2]; //x:1 y:2
+        //let[x = y, y = 1] = [];//此时会报错，因为y作x的默认值时，还没有被声明
+
+        //解构对象，数组的解构是按照数组中元素的位置来决定的，而对象的解构是按照变量名是否相等来解构的
+        //如果左边的变量名在右边没有与其对应的值，那么解构出来的变量将为undefined
+        //let {bar,foo} = { bar : 'abc', foo : 'efg'}; // 此时bar: 'abc' foo: 'efg'
+        //let {fee} = { ana : 'aaa'};//fee此时为undefined
+        //console.log(bar,foo,fee);
+
+        //对象的解构中，可以将对象现有的方法赋值到某个变量上
+        //let {log,sin,cos} = Math;
+        // let { log } = console;
+        // log('hello');
+
+        //当变量名与属性名不一样时，需要写成下面的这种形式
+        // let { foo: baz } = { foo: 'aaa', bar: 'bbb' };
+        // baz // "aaa"
+
+        // let obj = { first: 'hello', last: 'world' };
+        // let { first: f, last: l } = obj;
+        // f // 'hello'
+        // l // 'world'
+
+        //在对象解构中也可以使用嵌套的形式
+        // let obj = {
+        //     p:[
+        //         'hello',
+        //         { y : 'world'}
+        //     ]
+        // }
+        // let{ p : [x ,{ y }]} = obj;
+        // console.log(x,y);
+
+        //在解构对象中，如果子对象所存在的父属性不存在，那么将会报错
+        //let { foo : {bar} } = {baz : 'baz'};//此时就会报错
+
+        //在解构对象中也可以使用默认值
+        // var { x = 3 } = {};
+        // console.log(x);
+        // var { x, y = 5 } = { x: 1 };
+        // x // 1
+        // y // 5
+        // var { x: y = 3 } = {};
+        // y // 3
+        // var { x: y = 3 } = { x: 5 };
+        // y // 5
+        // var { message: msg = 'Something went wrong' } = {};
+        // msg // "Something went wrong"
+
+        //注意点,错误写法
+        // let x;
+        // {x} = {x:1}; //此时会出现语法错误
+        //正确写法
+        // let x;
+        // ({x} = { x: 1})
+
+        //由于数组本质是特殊的对象，因此可以对数组进行对象解构
+        // let arr = [1,2,3];
+        // let{ 0: first, [arr.length - 1]: last} = arr;
+        // console.log(first,last);//此时的first: 1 last: 3
+
+        //字符串的解构赋值
+        // const [a,b,c,d,e] = 'hello';
+        // console.log(a,b,c,d,e); // 此时解构出的内容与后面的字符串中的字母一一对应
+        //类似数组的对象中的length，因此还可以对这个属性进行解构
+        // const {length : len} = 'hellosa';
+        // console.log(len);
+
+        //函数参数的解构
+        // function add([x,y]){
+        //     return x + y
+        // }
+        // console.log(add([5,6]));
+        // console.log([[1,2],[5,3]].map(([a,b]) => a + b));
+
+        //函数参数的解构也可以是默认值
+        // function move({ x = 0, y = 0 } = {}) {
+        //     return [x, y]
+        // }
+        // move({ x: 3, y: 8 }); // [3, 8]
+        // move({ x: 3 }); // [3, 0]
+        // move({}); // [0, 0]
+        // move(); // [0, 0]
+
+        //下面的代码和上面得到的结果不同，因为不是给x,y设置的默认值
+        // function move({ x, y } = { x: 0, y: 0 }) {
+        //     return [x, y];
+        // }
+
+        // move({ x: 3, y: 8 }); // [3, 8]
+        // move({ x: 3 }); // [3, undefined]
+        // move({}); // [undefined, undefined]
+        // move(); // [0, 0]
+
+    </script>
+</body>
+
+</html>
